@@ -37,21 +37,34 @@ jobs:
     - name: SSH into EC2 and deploy the app
       run: |
         ssh -o StrictHostKeyChecking=no -i key.pem -tt ec2-user@${{ secrets.AWS_IP }} << EOF
+        # Step 1: Stop any processes using port 80
         echo "Stopping any processes using port 80..."
-        sudo fuser -k 80/tcp || true  # Kill processes using port 80
-        sleep 5  # Allow time for the processes to terminate
+        sudo fuser -k 80/tcp || true
+        sleep 5  # Allow time for processes to terminate
 
-        echo "Stopping any running Docker containers..."
+        # Step 2: Stop and remove any running Docker containers on port 80
+        echo "Stopping any running Docker containers on port 80..."
         docker stop \$(docker ps -q --filter "publish=80") || true
         docker rm \$(docker ps -a -q --filter "publish=80") || true
 
+        # Step 3: Prune unused containers and networks
         echo "Pruning unused containers and networks..."
         docker container prune -f
         docker network prune -f
 
+        # Step 4: Pull the latest image from Docker Hub
         echo "Pulling the latest image from Docker Hub..."
         docker pull ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
 
+        # Step 5: Run the new Docker container and expose it on port 80
         echo "Running the new Docker container on port 80..."
         docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
+
+        # Step 6: Verify that the Docker container is running
+        echo "Verifying that the Docker container is running..."
+        docker ps
+
+        # Step 7: Check container logs to ensure it is running correctly
+        echo "Check container logs to ensure it’s running correctly..."
+        docker logs finance-tracker || echo "No logs available or container not running."
         EOF
