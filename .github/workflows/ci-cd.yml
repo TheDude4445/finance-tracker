@@ -34,16 +34,16 @@ jobs:
         echo "${{ secrets.AWS_KEY }}" > key.pem
         chmod 400 key.pem
 
-    - name: SSH into EC2 and deploy
+    - name: SSH into EC2 and deploy the app
       run: |
-        ssh -o StrictHostKeyChecking=no -tt -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
-        echo "Killing any processes using port 80..."
-        sudo fuser -k 80/tcp || true
-        sleep 5  # Allow time for processes to terminate
+        ssh -o StrictHostKeyChecking=no -i key.pem -tt ec2-user@${{ secrets.AWS_IP }} << EOF
+        echo "Stopping any processes using port 80..."
+        sudo fuser -k 80/tcp || true  # Kill processes using port 80
+        sleep 5  # Allow time for the processes to terminate
 
-        echo "Stopping any existing Docker containers..."
-        docker stop finance-tracker || true
-        docker rm finance-tracker || true
+        echo "Stopping any running Docker containers..."
+        docker stop \$(docker ps -q --filter "publish=80") || true
+        docker rm \$(docker ps -a -q --filter "publish=80") || true
 
         echo "Pruning unused containers and networks..."
         docker container prune -f
@@ -54,10 +54,4 @@ jobs:
 
         echo "Running the new Docker container on port 80..."
         docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
-
-        echo "Verifying that the Docker container is running..."
-        docker ps
-
-        echo "Check container logs to ensure it's running correctly..."
-        docker logs finance-tracker
         EOF
