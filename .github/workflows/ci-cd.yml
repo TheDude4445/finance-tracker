@@ -35,13 +35,18 @@ jobs:
         echo "${{ secrets.AWS_KEY }}" > key.pem
         chmod 400 key.pem
 
-    # Step 2: SSH into EC2 and deploy the app
+    # Step 2: Start the EC2 instance (if not running)
+    - name: Start EC2 instance
+      run: |
+        aws ec2 start-instances --instance-ids ${{ secrets.AWS_INSTANCE_ID }} --region ${{ secrets.AWS_REGION }}
+        aws ec2 wait instance-running --instance-ids ${{ secrets.AWS_INSTANCE_ID }} --region ${{ secrets.AWS_REGION }}
+
+    # Step 3: SSH into EC2 and deploy the app
     - name: Deploy to AWS EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
+        ssh -o StrictHostKeyChecking=no -T -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
         
-        # Stop any process using port 80 (e.g., Nginx, Apache, or others)
-        echo "Killing any processes using port 80..."
+        # Stop any process using port 80
         sudo fuser -k 80/tcp || true
 
         # Check if any Docker container is running on port 80 and stop it
@@ -57,6 +62,5 @@ jobs:
         docker network prune -f
 
         # Run the new Docker container
-        echo "Running the new container on port 80..."
         docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
         EOF
