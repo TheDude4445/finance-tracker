@@ -29,36 +29,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Configure AWS credentials
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-    # Step 2: Create the .pem file from the secret
+    # Step 1: Create the .pem file from the secret
     - name: Create PEM file
       run: |
         echo "${{ secrets.AWS_KEY }}" > key.pem
         chmod 400 key.pem
 
-    # Step 3: Start the EC2 instance (if not running)
-    - name: Start EC2 instance
-      run: |
-        aws ec2 start-instances --instance-ids ${{ secrets.AWS_INSTANCE_ID }} --region ${{ secrets.AWS_REGION }}
-        aws ec2 wait instance-running --instance-ids ${{ secrets.AWS_INSTANCE_ID }} --region ${{ secrets.AWS_REGION }}
-
-    # Step 4: Sleep for 30 seconds to allow the instance to fully initialize
-    - name: Wait for EC2 instance to fully initialize
-      run: sleep 30  # Wait for 30 seconds to ensure SSH can connect
-
-    # Step 5: SSH into EC2 and deploy the app
+    # Step 2: SSH into EC2 and deploy the app
     - name: Deploy to AWS EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -T -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
+        ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
         
-        # Stop any process using port 80
+        # Stop any process using port 80 (e.g., Nginx, Apache, or others)
+        echo "Killing any processes using port 80..."
         sudo fuser -k 80/tcp || true
 
         # Check if any Docker container is running on port 80 and stop it
@@ -74,5 +57,6 @@ jobs:
         docker network prune -f
 
         # Run the new Docker container
+        echo "Running the new container on port 80..."
         docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
         EOF
