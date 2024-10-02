@@ -38,7 +38,7 @@ jobs:
     # Step 2: SSH into EC2 and deploy the app
     - name: Deploy to AWS EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
+        ssh -o StrictHostKeyChecking=no -tt -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
         
         # Stop any process using port 80 (e.g., Nginx, Apache, or others)
         echo "Killing any processes using port 80..."
