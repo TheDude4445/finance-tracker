@@ -40,14 +40,20 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
         
-        # Check if the container is already running
+        # Stop any process using port 80 (e.g., Nginx or Apache)
+        sudo fuser -k 80/tcp || true
+
+        # Check if the container is already running and stop it
         if [ \$(docker ps -q -f name=finance-tracker) ]; then
-          echo "Container is already running, stopping it..."
+          echo "Stopping the running finance-tracker container..."
           docker stop finance-tracker
           docker rm finance-tracker
         else
-          echo "No running container found, proceeding to run the new one."
+          echo "No running container found on port 80."
         fi
+
+        # Remove any stopped containers
+        docker container prune -f
 
         # Run the new container
         docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
