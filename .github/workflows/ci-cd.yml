@@ -38,7 +38,7 @@ jobs:
     # Step 2: SSH into EC2 and deploy the app
     - name: Deploy to AWS EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
+        ssh -o StrictHostKeyChecking=no -i key.pem -t ec2-user@${{ secrets.AWS_IP }} << EOF
         docker pull ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
         docker stop $(docker ps -q) || true
         docker run -d -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
