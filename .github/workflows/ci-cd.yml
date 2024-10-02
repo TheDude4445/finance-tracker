@@ -40,11 +40,12 @@ jobs:
         # Step 1: Stop any processes using port 80
         echo "Stopping any processes using port 80..."
         sudo fuser -k 80/tcp || true
-        sleep 5  # Allow time for processes to terminate
+        sleep 10  # Allow more time for the process to terminate
 
         # Step 2: Stop and remove any running Docker containers on port 80
         echo "Stopping any running Docker containers on port 80..."
         docker stop \$(docker ps -q --filter "publish=80") || true
+        sleep 10  # Give more time for containers to stop
         docker rm \$(docker ps -a -q --filter "publish=80") || true
 
         # Step 3: Prune unused containers and networks
