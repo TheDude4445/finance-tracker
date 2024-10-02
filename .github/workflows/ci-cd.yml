@@ -49,7 +49,11 @@ jobs:
         aws ec2 start-instances --instance-ids ${{ secrets.AWS_INSTANCE_ID }} --region ${{ secrets.AWS_REGION }}
         aws ec2 wait instance-running --instance-ids ${{ secrets.AWS_INSTANCE_ID }} --region ${{ secrets.AWS_REGION }}
 
-    # Step 4: SSH into EC2 and deploy the app
+    # Step 4: Sleep for 30 seconds to allow the instance to fully initialize
+    - name: Wait for EC2 instance to fully initialize
+      run: sleep 30  # Wait for 30 seconds to ensure SSH can connect
+
+    # Step 5: SSH into EC2 and deploy the app
     - name: Deploy to AWS EC2
       run: |
         ssh -o StrictHostKeyChecking=no -T -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
