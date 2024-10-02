@@ -38,8 +38,17 @@ jobs:
     # Step 2: SSH into EC2 and deploy the app
     - name: Deploy to AWS EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem -tt ec2-user@${{ secrets.AWS_IP }} << EOF
-        docker pull ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
-        docker stop $(docker ps -q) || true
-        docker run -d -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
+        ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
+        
+        # Check if the container is already running
+        if [ \$(docker ps -q -f name=finance-tracker) ]; then
+          echo "Container is already running, stopping it..."
+          docker stop finance-tracker
+          docker rm finance-tracker
+        else
+          echo "No running container found, proceeding to run the new one."
+        fi
+
+        # Run the new container
+        docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
         EOF
