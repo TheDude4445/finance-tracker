@@ -29,34 +29,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Create the .pem file from the secret
     - name: Create PEM file
       run: |
         echo "${{ secrets.AWS_KEY }}" > key.pem
         chmod 400 key.pem
 
-    # Step 2: SSH into EC2 and deploy the app
-    - name: Deploy to AWS EC2
+    - name: SSH into EC2 and deploy
       run: |
         ssh -o StrictHostKeyChecking=no -tt -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
-        
-        # Stop any process using port 80 (e.g., Nginx, Apache, or others)
         echo "Killing any processes using port 80..."
         sudo fuser -k 80/tcp || true
+        sleep 5  # Allow time for processes to terminate
 
-        # Check if any Docker container is running on port 80 and stop it
-        CONTAINER_ID=\$(docker ps -q --filter "publish=80")
-        if [ "\$CONTAINER_ID" ]; then
-          echo "Stopping container using port 80..."
-          docker stop \$CONTAINER_ID
-          docker rm \$CONTAINER_ID
-        fi
+        echo "Stopping any existing Docker containers..."
+        docker stop finance-tracker || true
+        docker rm finance-tracker || true
 
-        # Prune stopped containers and networks
+        echo "Pruning unused containers and networks..."
         docker container prune -f
         docker network prune -f
 
-        # Run the new Docker container
-        echo "Running the new container on port 80..."
+        echo "Pulling the latest image from Docker Hub..."
+        docker pull ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
+
+        echo "Running the new Docker container on port 80..."
         docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
+
+        echo "Verifying that the Docker container is running..."
+        docker ps
+
+        echo "Check container logs to ensure it's running correctly..."
+        docker logs finance-tracker
         EOF
