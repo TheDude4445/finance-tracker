@@ -22,12 +22,14 @@ class Budget(db.Model):
     category = db.Column(db.String(50), nullable=False)
     limit = db.Column(db.Float, nullable=False)
 
-# API Endpoints (remain unchanged)
+# -------------------- API Endpoints -------------------- #
 
+# API Home
 @app.route('/api/')
 def api_home():
     return jsonify(message="Welcome to the Personal Finance Tracker API")
 
+# API - Add a new transaction
 @app.route('/api/transactions', methods=['POST'])
 def api_add_transaction():
     data = request.get_json()
@@ -43,6 +45,7 @@ def api_add_transaction():
     db.session.commit()
     return jsonify(message="Transaction added successfully"), 201
 
+# API - Get all transactions
 @app.route('/api/transactions', methods=['GET'])
 def api_get_transactions():
     transactions = Transaction.query.all()
@@ -57,6 +60,7 @@ def api_get_transactions():
         output.append(transaction_data)
     return jsonify(transactions=output)
 
+# API - Add a new budget
 @app.route('/api/budgets', methods=['POST'])
 def api_add_budget():
     data = request.get_json()
@@ -72,6 +76,7 @@ def api_add_budget():
     
     return jsonify(message="Budget added successfully"), 201
 
+# API - Get all budgets
 @app.route('/api/budgets', methods=['GET'])
 def api_get_budgets():
     budgets = Budget.query.all()
@@ -84,7 +89,7 @@ def api_get_budgets():
         output.append(budget_data)
     return jsonify(budgets=output)
 
-# Front-End Routes
+# -------------------- Front-End Routes -------------------- #
 
 # Home Route (Front-end)
 @app.route('/')
