@@ -107,8 +107,12 @@ def add_transaction():
     description = request.form['description']
     amount = float(request.form['amount'])
     category = request.form['category']
+    date = request.form['date']  # Get the date from the form
 
-    new_transaction = Transaction(description=description, amount=amount, category=category)
+    # Convert string date to datetime object
+    transaction_date = datetime.strptime(date, '%Y-%m-%d')
+
+    new_transaction = Transaction(description=description, amount=amount, category=category, date=transaction_date)
     db.session.add(new_transaction)
     db.session.commit()
 
