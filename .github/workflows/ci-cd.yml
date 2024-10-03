@@ -39,7 +39,21 @@ jobs:
     - name: Deploy to AWS EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@${{ secrets.AWS_IP }} << EOF
+        echo "Stopping any processes using port 80..."
+        sudo fuser -k 80/tcp || true
+
+        echo "Stopping any running Docker containers..."
+        docker stop \$(docker ps -q) || true
+
+        echo "Removing any stopped Docker containers..."
+        docker rm \$(docker ps -a -q) || true
+
+        echo "Pruning unused Docker resources..."
+        docker system prune -f
+
+        echo "Pulling the latest Docker image from Docker Hub..."
         docker pull ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
-        docker stop $(docker ps -q) || true
-        docker run -d -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
+
+        echo "Running the new Docker container on port 80..."
+        docker run -d --name finance-tracker -p 80:5000 ${{ secrets.DOCKER_USERNAME }}/finance-tracker:latest
         EOF
