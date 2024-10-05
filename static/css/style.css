@@ -1,7 +1,7 @@
 /* General Styling */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f6f9;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
     color: #333;
@@ -10,39 +10,30 @@ body {
 .container {
     max-width: 1100px;
     margin: 40px auto;
-    padding: 30px;
+    padding: 20px;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: left;
 }
 
-h1, h2, h3 {
-    color: #2c3e50;
-}
-
-h1 {
-    font-size: 36px;
-    font-weight: 700;
+/* Header Styling */
+header {
+    background-color: #3498db;
+    color: white;
     text-align: center;
+    padding: 20px 0;
 }
 
-h2, h3 {
-    font-size: 28px;
-    margin-bottom: 20px;
+.header-container h1 {
+    font-size: 40px;
+    margin: 0;
 }
 
-p, label {
-    font-size: 16px;
-    margin: 10px 0;
-    font-weight: 500;
-}
-
-/* Tagline Styling */
 header .tagline {
     font-size: 18px;
-    color: #ecf0f1;
     margin-top: 10px;
+    color: #ecf0f1;
 }
 
 /* Welcome Section */
@@ -50,46 +41,50 @@ header .tagline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 0;
+    margin: 40px 0;
 }
 
 .welcome-content {
     flex: 1;
-    margin-right: 30px;
-}
-
-.welcome-image {
-    flex: 1;
-    text-align: right;
+    margin-right: 40px;
 }
 
 .welcome-image img {
-    max-width: 80%;
-    border-radius: 8px;
+    max-width: 90%;
+    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+button, a.button {
+    display: inline-block;
+    background-color: #2980b9;
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover, a.button:hover {
+    background-color: #1f638b;
+    transform: scale(1.05);
 }
 
 /* CTA Buttons Section */
 .cta-buttons {
-    background-color: #3498db;
-    padding: 30px 0;
     text-align: center;
+    padding: 30px 0;
+    background-color: #3498db;
 }
 
 .cta-buttons .container {
     display: flex;
     justify-content: center;
-    gap: 30px;
-}
-
-.cta-buttons .button {
-    padding: 15px 30px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.cta-buttons .button:hover {
-    background-color: #2980b9;
+    gap: 20px;
 }
 
 /* Features Section */
@@ -139,14 +134,13 @@ footer {
         font-size: 24px;
     }
 
-    button, a.button {
-        font-size: 14px;
-        padding: 10px 15px;
-    }
-
     .welcome-section {
         flex-direction: column;
         text-align: center;
+    }
+
+    .welcome-content {
+        margin: 0;
     }
 
     .welcome-image img {
