@@ -41,13 +41,15 @@ header .tagline {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     align-items: center;
-    text-align: center; /* Center-align text */
+    text-align: center;
     margin: 40px 0;
 }
 
 .welcome-content {
     max-width: 600px;
+    text-align: center; /* Ensure the welcome text is centered */
     margin-bottom: 20px;
+    align-self: center; /* Ensure the content aligns in the middle of the container */
 }
 
 .welcome-image img {
