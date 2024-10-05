@@ -38,6 +38,13 @@ p, label {
     font-weight: 500;
 }
 
+/* Tagline Styling */
+header .tagline {
+    font-size: 18px;
+    color: #ecf0f1;
+    margin-top: 10px;
+}
+
 /* Welcome Section */
 .welcome-section {
     display: flex;
@@ -48,6 +55,7 @@ p, label {
 
 .welcome-content {
     flex: 1;
+    margin-right: 30px;
 }
 
 .welcome-image {
@@ -59,6 +67,29 @@ p, label {
     max-width: 80%;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* CTA Buttons Section */
+.cta-buttons {
+    background-color: #3498db;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.cta-buttons .container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.cta-buttons .button {
+    padding: 15px 30px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-buttons .button:hover {
+    background-color: #2980b9;
 }
 
 /* Features Section */
@@ -84,44 +115,6 @@ p, label {
 }
 
 .feature p {
-    font-size: 16px;
-}
-
-/* Buttons */
-button, a.button {
-    display: inline-block;
-    background-color: #3498db;
-    color: white;
-    padding: 15px 25px;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover, a.button:hover {
-    background-color: #2980b9;
-}
-
-/* CTA (Call to Action) Buttons Section */
-.cta-buttons {
-    background-color: #2980b9;
-    padding: 20px 0;
-    text-align: center;
-}
-
-.cta-buttons .container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.cta-buttons .button {
-    padding: 15px 25px;
     font-size: 16px;
 }
 
