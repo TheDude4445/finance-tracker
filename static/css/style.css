@@ -9,18 +9,33 @@ body {
 
 .container {
     max-width: 900px;
-    margin: 50px auto;
-    padding: 20px;
+    margin: 40px auto;
+    padding: 30px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
-h1, h2 {
+h1, h2, h3 {
     color: #2c3e50;
+}
+
+h1 {
+    font-size: 36px;
     font-weight: 700;
     text-align: center;
+}
+
+h2 {
+    font-size: 28px;
     margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 
 p, label {
@@ -34,7 +49,7 @@ button, a.button {
     display: inline-block;
     background-color: #3498db;
     color: white;
-    padding: 12px 20px;
+    padding: 15px 25px;
     text-align: center;
     text-decoration: none;
     border: none;
@@ -49,61 +64,6 @@ button:hover, a.button:hover {
     background-color: #2980b9;
 }
 
-/* Inputs and Forms */
-input[type="text"], input[type="number"], input[type="date"], select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-input:focus, select:focus {
-    border-color: #3498db;
-    outline: none;
-}
-
-/* Tables */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 14px;
-    text-align: left;
-    font-size: 16px;
-}
-
-th {
-    background-color: #3498db;
-    color: white;
-}
-
-td {
-    background-color: #f9f9f9;
-}
-
-tr:nth-child(even) td {
-    background-color: #f4f6f9;
-}
-
-/* Links */
-a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 /* Header & Footer */
 header, footer {
     background-color: #2c3e50;
@@ -116,13 +76,49 @@ header h1, footer p {
     margin: 0;
 }
 
+/* Tagline under header */
+header .tagline {
+    font-size: 18px;
+    color: #ecf0f1;
+    margin-top: 10px;
+}
+
+/* CTA (Call to Action) Buttons Section */
+.cta-buttons {
+    background-color: #2980b9;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.cta-buttons .container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cta-buttons .button {
+    padding: 15px 25px;
+    font-size: 16px;
+}
+
+/* Lists for key features */
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
         width: 95%;
     }
 
-    h1, h2 {
+    h1, h2, h3 {
         font-size: 24px;
     }
 
