@@ -1,0 +1,133 @@
+/* General Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #2c3e50;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+p, label {
+    font-size: 16px;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+/* Buttons */
+button, a.button {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, a.button:hover {
+    background-color: #2980b9;
+}
+
+/* Inputs and Forms */
+input[type="text"], input[type="number"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #f4f6f9;
+}
+
+/* Links */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Header & Footer */
+header, footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
+
+header h1, footer p {
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    h1, h2 {
+        font-size: 24px;
+    }
+
+    button, a.button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
