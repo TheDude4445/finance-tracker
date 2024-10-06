@@ -39,17 +39,29 @@ header .tagline {
 /* Welcome Section */
 .welcome-section {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center;
+    justify-content: center; /* Ensure the entire section is centered */
+    align-items: center; /* Align items vertically in the center */
     text-align: center;
     margin: 40px 0;
 }
 
+.welcome-container {
+    display: flex;
+    justify-content: space-between; /* Ensure content is spaced within the section */
+    align-items: center;
+    flex-direction: row; /* Keep text and image side by side */
+    width: 100%; /* Ensure container takes full width */
+    max-width: 1100px;
+}
+
 .welcome-content {
-    max-width: 600px;
-    text-align: center; /* Ensure the welcome text is centered */
-    margin-bottom: 20px;
-    align-self: center; /* Ensure the content aligns in the middle of the container */
+    flex: 1;
+    text-align: center; /* Center-align text */
+    margin-right: 20px; /* Add space between text and image */
+}
+
+.welcome-image {
+    flex: 1;
 }
 
 .welcome-image img {
@@ -139,6 +151,7 @@ footer {
     }
 
     .welcome-section {
+        flex-direction: column; /* Stack items vertically on smaller screens */
         text-align: center;
     }
 
