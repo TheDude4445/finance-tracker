@@ -29,7 +29,7 @@
             {% for budget in budgets %}
             <tr>
                 <td>{{ budget.category }}</td>
-                <td>${{ budget.limit }}</td>
+                <td>${{ budget.budget_limit }}</td> <!-- Updated field reference -->
                 <td>
                     <a href="/edit_budget/{{ budget.id }}" class="button">Edit</a>
                     <form action="/delete_budget/{{ budget.id }}" method="POST" style="display:inline;">
