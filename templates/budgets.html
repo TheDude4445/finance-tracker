@@ -4,74 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budgets</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-        }
-        h1 {
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        a.button {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        a.button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
+<header>
+    <div class="header-container">
+        <h1>Finance Tracker</h1>
+        <p class="tagline">Take control of your finances with ease and clarity.</p>
+    </div>
+</header>
+
 <div class="container">
-    <h1>All Budgets</h1>
+    <h2>View Budgets</h2>
     <table>
         <thead>
             <tr>
                 <th>Category</th>
-                <th>Limit</th>
+                <th>Budget Limit</th>
             </tr>
         </thead>
         <tbody>
             {% for budget in budgets %}
             <tr>
                 <td>{{ budget.category }}</td>
-                <td>{{ budget.limit }}</td>
+                <td>${{ budget.limit }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="/add_budget" class="button">Add New Budget</a>
-    <a href="/" class="button">Go to Home</a>
 </div>
+
+<div class="cta-buttons">
+    <a href="/" class="button">Go Home</a>
+    <a href="/add_budget" class="button">Add Budget</a>
+</div>
+
+<footer>
+    <p>Personal Finance Tracker &copy; 2024</p>
+</footer>
 
 </body>
 </html>
