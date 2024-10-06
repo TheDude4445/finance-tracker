@@ -11,7 +11,7 @@
 <header>
     <div class="header-container">
         <h1>Finance Tracker</h1>
-        <p class="tagline">Take control of your finances with ease and clarity.</p>
+        <p class="tagline">Set and manage your budgets efficiently.</p>
     </div>
 </header>
 
@@ -22,6 +22,7 @@
             <tr>
                 <th>Category</th>
                 <th>Budget Limit</th>
+                <th>Actions</th> <!-- New column for edit/delete buttons -->
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,12 @@
             <tr>
                 <td>{{ budget.category }}</td>
                 <td>${{ budget.limit }}</td>
+                <td>
+                    <a href="/edit_budget/{{ budget.id }}" class="button">Edit</a>
+                    <form action="/delete_budget/{{ budget.id }}" method="POST" style="display:inline;">
+                        <button type="submit" class="button delete-button">Delete</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

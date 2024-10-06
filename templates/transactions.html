@@ -24,6 +24,7 @@
                 <th>Amount</th>
                 <th>Category</th>
                 <th>Date</th>
+                <th>Actions</th> <!-- New column for edit/delete buttons -->
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,12 @@
                 <td>${{ transaction.amount }}</td>
                 <td>{{ transaction.category }}</td>
                 <td>{{ transaction.date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    <a href="/edit_transaction/{{ transaction.id }}" class="button">Edit</a>
+                    <form action="/delete_transaction/{{ transaction.id }}" method="POST" style="display:inline;">
+                        <button type="submit" class="button delete-button">Delete</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

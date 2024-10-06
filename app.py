@@ -147,6 +147,46 @@ def get_budgets():
     budgets = Budget.query.all()
     return render_template('budgets.html', budgets=budgets)
 
+# Route to delete a transaction
+@app.route('/delete_transaction/<int:id>', methods=['POST'])
+def delete_transaction(id):
+    transaction = Transaction.query.get_or_404(id)
+    db.session.delete(transaction)
+    db.session.commit()
+    return redirect(url_for('get_transactions'))
+
+# Route to edit a transaction
+@app.route('/edit_transaction/<int:id>', methods=['GET', 'POST'])
+def edit_transaction(id):
+    transaction = Transaction.query.get_or_404(id)
+    if request.method == 'POST':
+        transaction.description = request.form['description']
+        transaction.amount = float(request.form['amount'])
+        transaction.category = request.form['category']
+        transaction.date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        db.session.commit()
+        return redirect(url_for('get_transactions'))
+    return render_template('edit_transaction.html', transaction=transaction)
+
+# Route to delete a budget
+@app.route('/delete_budget/<int:id>', methods=['POST'])
+def delete_budget(id):
+    budget = Budget.query.get_or_404(id)
+    db.session.delete(budget)
+    db.session.commit()
+    return redirect(url_for('get_budgets'))
+
+# Route to edit a budget
+@app.route('/edit_budget/<int:id>', methods=['GET', 'POST'])
+def edit_budget(id):
+    budget = Budget.query.get_or_404(id)
+    if request.method == 'POST':
+        budget.category = request.form['category']
+        budget.limit = float(request.form['limit'])
+        db.session.commit()
+        return redirect(url_for('get_budgets'))
+    return render_template('edit_budget.html', budget=budget)
+
 # Run the app
 if __name__ == "__main__":
     with app.app_context():

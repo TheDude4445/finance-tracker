@@ -217,3 +217,12 @@ footer {
         max-width: 300px;
     }
 }
+
+/* Delete Button Styling */
+.delete-button {
+    background-color: #e74c3c;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
